@@ -18,9 +18,11 @@ namespace Osrs
 
             int currLevel = 0;
             int goalLevel = 0;
-            int methodSelection = 0;
+            int crafting = 0;
 
             double[] expMethod = new double[3]{ 52.5, 55, 70 };
+            double[] glassPerSeaweed = new double[3] { 8.7, 8.9, 9.6 };
+            double[] glassPerSand = new double[3] { 1.45, 1.49, 1.6 };
 
             while (true)
             {
@@ -47,7 +49,7 @@ namespace Osrs
                     {
                         try
                         {
-                            Console.WriteLine("Select method of training:\n");
+                            Console.WriteLine("Method of crafting:\n");
 
                             if (currLevel >= 46 && currLevel < 49)
                             {
@@ -67,71 +69,98 @@ namespace Osrs
                                 Console.WriteLine("Current level is not high enough level for the current available selections. Consider other methods to train craft until level 46.");
                                 break;
                             }
+                            crafting = int.Parse(Console.ReadLine());
 
-                            methodSelection = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Method of Super Glass make:\n");
+
+                            int X = 0;
+
+                            //while(!int.TryParse(Console.ReadLine(), out X) && X > 0 && X < 3)
+                            //{
+                            //    Console.WriteLine("Please enter a valid input from 0 - 1");
+                            //}
+
+                            int test = 0;
+
+                            do
+                            {
+                                try
+                                {
+                                    test = int.Parse(Console.ReadLine());
+                                }
+                                catch
+                                {
+
+                                }
+                            } while (test > 0 && test < 3);
+
 
                             //Users exp
                             RSExp UsrExp = new RSExp();
-                            int usrLvlToExp = UsrExp.LevelToXP(currLevel);
+                            double usrLvlToExp = UsrExp.LevelToXP(currLevel);
 
                             //Goal exp
                             RSExp goalExp = new RSExp();
-                            int goalLvlToExp = goalExp.LevelToXP(goalLevel);
+                            double goalLvlToExp = goalExp.LevelToXP(goalLevel);
 
                             //calculate exp difference
-                            int expDifference = goalLvlToExp - usrLvlToExp;
+                            double expDifference = goalLvlToExp - usrLvlToExp;
 
                             //Number of seaweed to reach level
-                            int m1 = expDifference / (Convert.ToInt32((1.45 * 6) * expMethod[methodSelection] + 40));
-                            int m2 = expDifference / (Convert.ToInt32((1.49 * 6) * expMethod[methodSelection] + 60));
-                            int m3 = expDifference / (Convert.ToInt32((1.6 * 6) * expMethod[methodSelection] + 60));
+                            double[] methods = new double[3];
+
+                            for(int i = 0; i < methods.Length; i++)
+                            {
+                                if(crafting == 0)
+                                {
+                                    methods[i] = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[i] * 6) * expMethod[crafting] + 40)));
+                                }
+                                else
+                                {
+                                    methods[i] = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[i] * 6) * expMethod[crafting] + 60)));
+                                }
+                            }
 
                             Console.Clear();
-                            Console.WriteLine("Method 1: 2 Giant seaweed + 12 bucket of sand");
-                            Console.WriteLine("Method 2: 3 Giant seaweed - 18 bucket of sand(w / e excess)");
-                            Console.WriteLine("Method 3: 3 Giant seaweed - 18 bucket of sand (w excess)");
+                            Console.WriteLine("Method 0: 2 Giant seaweed + 12 bucket of sand");
+                            Console.WriteLine("Method 1: 3 Giant seaweed - 18 bucket of sand(w / e excess)");
+                            Console.WriteLine("Method 2: 3 Giant seaweed - 18 bucket of sand (w excess)");
 
                             Console.WriteLine("Results\n");
 
                             Console.WriteLine("Exp to goal: " + string.Format("{0:n0}", expDifference) + "\n");
 
-                            Console.WriteLine("Method 1: " + m1 + " giant seawed");
-                            Console.WriteLine("Required buckets of sand: " + m1 * 6);
+                            for (int i = 0; i < glassPerSeaweed.Count(); i++)
+                            {
+                                Console.WriteLine("Method " + i + " "+ methods[i] + " giant seaweed  Required buckets of sand: " + methods[i] * 6);
+                            }
 
-                            Console.WriteLine("Total exp: " + (m1 * 8.7) * expMethod[methodSelection]);
+                            int[] casts = new int[2] { Convert.ToInt32(methods[0] / 2), Convert.ToInt32(methods[2] / 3)};
 
-                            Console.WriteLine("Method 2: " + m2 + " giant seawed");
-                            Console.WriteLine("Required buckets of sand: " + m2 * 6);
+                            Console.WriteLine("Number of casts: " + casts[0]);
+                            
 
-                            Console.WriteLine("Total exp: " + (m2 * 8.9) * expMethod[methodSelection]);
+                            //Console.WriteLine("Number of casts: " + casts);
+                            //Console.WriteLine("Number of atral runes required: " + casts * 2);
+                            //Console.WriteLine("Magic Exp: " + string.Format("{0:n0}", casts * 78));
 
-                            Console.WriteLine("Method 3: " + m3 + " giant seawed");
-                            Console.WriteLine("Required buckets of sand: " + m3 * 6);
-
-                            Console.WriteLine("Total exp: " + (m3 * 9.6) * expMethod[methodSelection] + "\n\n");
-
-                            int casts = m3 / 3;
-                            Console.WriteLine("Number of casts: " + casts);
-                            Console.WriteLine("Number of atral runes required: " + casts * 2);
-                            Console.WriteLine("Magic Exp: " + string.Format("{0:n0}", casts * 78));
-
-                            Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 40));
-                            Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 60));
-                            Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 60));
+                            //Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 40));
+                            //Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 60));
+                            //Console.WriteLine("Crafting Exp from casting: " + string.Format("{0:n0}", casts * 60));
 
 
-                            double expFromBlowing_m1 = (m1 * 8.7) * expMethod[methodSelection];
-                            double expFromBlowing_m2 = (m2 * 8.9) * expMethod[methodSelection];
-                            double expFromBlowing_m3 = (m3 * 9.6) * expMethod[methodSelection];
+                            //double expFromBlowing_m1 = (m1 * 8.7) * expMethod[methodSelection];
+                            //double expFromBlowing_m2 = (m2 * 8.9) * expMethod[methodSelection];
+                            //double expFromBlowing_m3 = (m3 * 9.6) * expMethod[methodSelection];
 
 
-                            Console.WriteLine("Method 1 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m1));
-                            Console.WriteLine("Method 2 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m2));
-                            Console.WriteLine("Method 3 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m3));
+                            //Console.WriteLine("Method 1 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m1));
+                            //Console.WriteLine("Method 2 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m2));
+                            //Console.WriteLine("Method 3 Exp from blowing: " + string.Format("{0:n0}", expFromBlowing_m3));
 
-                            Console.WriteLine("METHOD 1 TOTAL: " + expFromBlowing_m1 + (casts * 40));
-                            Console.WriteLine("METHOD 2 TOTAL: " + expFromBlowing_m2 + (casts * 60));
-                            Console.WriteLine("METHOD 3 TOTAL: " + expFromBlowing_m3 + (casts * 60));
+                            //Console.WriteLine("METHOD 1 TOTAL: " + expFromBlowing_m1 + (casts * 40));
+                            //Console.WriteLine("METHOD 2 TOTAL: " + expFromBlowing_m2 + (casts * 60));
+                            //Console.WriteLine("METHOD 3 TOTAL: " + expFromBlowing_m3 + (casts * 60));
 
                             break;
                         }
@@ -162,14 +191,14 @@ namespace Osrs
                 xp + 300 * Math.Pow(2, xp / 7));
         }
 
-        public int LevelToXP(int level)
+        public double LevelToXP(int level)
         {
             double xp = 0;
 
             for (int i = 1; i < level; i++)
                 xp += this.Equate(i);
 
-            return (int)Math.Floor(xp / 4);
+            return Math.Floor(xp / 4);
         }
 
         public int XPToLevel(int xp)
