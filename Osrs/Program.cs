@@ -22,38 +22,61 @@ namespace Osrs
             Console.WriteLine("1 - Levels");
             Console.WriteLine("2 - Resources");
 
-            int userInput;
-            bool isValidInput = false;
+            int userInput = int.Parse(Console.ReadLine());
 
-            do
+            switch (userInput)
             {
-               
-                string input = Console.ReadLine();
+                case 1:
+                    CalculateFromLevels();
+                    break;
+                case 2:
+                    CalculateFromResources();
+                    break;
+                default:
+                    Console.WriteLine("Please enter a valid entry");
+                    break;
+            }
 
-                if (int.TryParse(input, out userInput))
-                {
-                    switch (userInput)
-                    {
-                        case 1:
-                            CalculateFromLevels();
-                            break;
-                        case 2:
-                            break;
-                        default:
-                            Console.WriteLine("Please enter a valid entry");
-                            break;
-                    }
-                    isValidInput = true;
-                }
-                else
-                {
-                    Console.Clear();
-                    Console.WriteLine("Please select either options");
-                }
-            } while (!isValidInput);
+            //int userInput;
+            //bool isValidInput = false;
+
+            //do
+            //{
+            //    string input = Console.ReadLine();
+
+            //    if (int.TryParse(input, out userInput))
+            //    {
+
+            //        isValidInput = true;
+            //    }
+            //    else
+            //    {
+            //        Console.Clear();
+            //        Console.WriteLine("Please select either options");
+            //    }
+            //} while (!isValidInput);
 
 
             Console.ReadKey();
+        }
+
+        public static void Selection()
+        {
+
+
+        }
+
+        public static void CalculateFromResources()
+        {
+            int giantSeaWeed = 0;
+            int sand = 0;
+
+            Console.WriteLine("1 - Giant Seaweed");
+            Console.WriteLine("2 - Bucket of sand");
+
+
+            //Calculate the number of super glass make casts and craft exp
+            //Calculate the amount of molten glass made and exp from option of crafting.
         }
 
         public static void CalculateFromLevels()
