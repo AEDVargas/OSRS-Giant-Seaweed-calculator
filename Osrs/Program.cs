@@ -117,38 +117,29 @@ namespace Osrs
             int limit = 20;
 
             //total seaweed
-            Console.WriteLine("Seaweed: ".PadRight(limit) + giantSeaWeed);
+            Console.WriteLine("Seaweed: ".PadRight(limit) + "|" + giantSeaWeed);
 
             //total bucket of sand
-            Console.WriteLine("Bucket of sand: ".PadRight(limit) + giantSeaWeed * 6);
+            Console.WriteLine("Bucket of sand: ".PadRight(limit) + "|" + giantSeaWeed * 6);
 
             //total spell cast
-            Console.WriteLine("\n\nTotal casts: ".PadRight(limit) + total_casts);
+            Console.WriteLine("\n\nTotal casts: ".PadRight(limit) + "|" + total_casts);
 
             //total runes required
-            Console.WriteLine("Total Runes: ".PadRight(limit) + total_casts * 2);
+            Console.WriteLine("Total Runes: ".PadRight(limit) + "|" + total_casts * 2);
 
             //total molten glass
-            Console.WriteLine("Total molten glass: ".PadRight(limit) + string.Format("{0:n0}", molten_count));
+            Console.WriteLine("Total molten glass: ".PadRight(limit) + "|" + string.Format("{0:n0}", molten_count));
 
             //total exp gain
-            Console.WriteLine("\n\nTotal Exp gain: ".PadRight(limit) + string.Format("{0:n0}", total_exp_sw) + "\n\n");
+            Console.WriteLine("\n\nTotal Exp gain: ".PadRight(limit) + "|" + string.Format("{0:n0}", total_exp_sw) + "\n\n");
 
             //total mage exp from casting
-            Console.WriteLine("Mage exp gained: ".PadRight(limit) + string.Format("{0:n0}", total_casts * 78));
-
-            //total craft exp from casting
-            Console.WriteLine("Crafting exp from casting: ".PadRight(limit) + string.Format("{0:n0}", total_casts * exp_per_cast));
-
-            //total craft from crafting
-            Console.WriteLine("Craftin exp from glass blow: ".PadLeft(limit) + string.Format("{0:n0}", molten_count * craftingExp));
+            Console.WriteLine("Mage exp gained: ".PadRight(limit) + "|" + string.Format("{0:n0}", total_casts * 78));
 
             //total time take to 
             double completion_time = (molten_count / glassPH[input - 1]) + (molten_count / 1700);
-            Console.WriteLine("Hours to complete: ".PadRight(limit) + string.Format("{0:n1}", completion_time));
-
-            //Calculate the number of super glass make casts and craft exp
-            //Calculate the amount of molten glass made and exp from option of crafting.
+            Console.WriteLine("Hours to complete: " + string.Format("{0:n1}", completion_time));
         }
 
         public static void CalculateFromLevels()
@@ -266,6 +257,7 @@ namespace Osrs
                             Console.Clear();
                             Console.WriteLine("--" + username + "--");
                             Console.WriteLine("Results\n");
+                            Console.WriteLine("From level: " + currLevel + " to " + goalLevel);
                             Console.WriteLine("Exp to goal: " + string.Format("{0:n0}", expDifference) + "\n");
                             Console.WriteLine("Required resources: \n");
 
