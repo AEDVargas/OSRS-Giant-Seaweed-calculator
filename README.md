@@ -4,7 +4,7 @@ This is a bear-boned console program that calculates:
 - Resources needed to reach a specific crafting level.
 
 Resources containing the number of runes to cast super glass make, the bucket of sand, and obviously the giant seaweed.
-Additionally, it calculates mage experience from casting the spell, crafting experience from casting as well as crafting the item from molten glass and the total time from making the giant seaweed to molten glass and crafting it.
+Additionally, it calculates mage experience from casting the spell, crafting experience and the total time from making the giant seaweed to molten glass and crafting it.
 
 Instructions: 
 - Select the method of calculating:
@@ -22,5 +22,5 @@ Instructions:
 - select the method of super glass make (2 giant seaweed + 12 buckets of sand or 3 giant seaweed + 18 buckets of sand(with/without pickup)
 - Enter the total number of giant seaweed banked
 
-![image](https://github.com/GnarIes/OSRS/assets/61062717/c0761291-11d7-4d94-8941-bd3a83f521ac)
+![image](https://github.com/GnarIes/OSRS/assets/61062717/465f74b4-ede6-4fc5-8ae9-8515ee0f2277)
 
