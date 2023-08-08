@@ -8,7 +8,7 @@ namespace Osrs
 {
     public class Experience
     {
-
+        //Alogrithm to convert level to exp and vice versa.
         public int Equate(double xp)
         {
             return (int)Math.Floor(

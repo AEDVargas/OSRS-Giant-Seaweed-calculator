@@ -38,6 +38,8 @@ namespace Osrs
                     break;
             }
 
+            //basic user input validation
+
             //int userInput;
             //bool isValidInput = false;
 
@@ -63,7 +65,6 @@ namespace Osrs
         public static void CalculateFromResources()
         {
             int giantSeaWeed = 0;
-            int sand = 0;
 
             //Select method of super glass make
             int input = Selection();
@@ -99,46 +100,52 @@ namespace Osrs
 
             //Dictates the calculation depending what form of training the user enters
             Console.Clear();
-            Console.WriteLine("Calculate from: \n");
-            Console.WriteLine("1 - Giant Seaweed");
-            Console.WriteLine("2 - Bucket of sand\n");
+            Console.WriteLine("How many giant seaweeds?");
             Console.Write("Enter: ");
-
-            if(int.Parse(Console.ReadLine()) == 1)
-            {
-                Console.WriteLine("How many giant seaweeds?");
-                Console.Write("Enter: ");
-                giantSeaWeed = int.Parse(Console.ReadLine());
-            }
-            else
-            {
-
-            }
+            giantSeaWeed = int.Parse(Console.ReadLine());
 
             //Start calculations
             Console.Clear();
-
-            double results = 0;
-            int seaWeedCount = 0;
-
-            //We have the number of seaweeds already
-            //From this we need to calculate how much exp we get from each seaweed
-            //Now this takes into account the method of glass making AND method of crafting
-            //
 
             double molten_count = giantSeaWeed * glassPerSeaweed[input - 1];
             double exp_per_sw = glassPerSeaweed[input - 1] * craftingExp + exp_per_cast;
 
             double total_exp_sw = exp_per_sw * giantSeaWeed;
 
-
-            Console.WriteLine(string.Format("{0:n0}", molten_count));
-            Console.WriteLine(string.Format("{0:n0}", total_exp_sw));
-
             int total_casts = (giantSeaWeed / input - 1);
 
-            Console.WriteLine("Number of casts: " + total_casts );
-            Console.WriteLine("Number of Astral Runes: " + total_casts * 2);
+            int limit = 20;
+
+            //total seaweed
+            Console.WriteLine("Seaweed: ".PadRight(limit) + giantSeaWeed);
+
+            //total bucket of sand
+            Console.WriteLine("Bucket of sand: ".PadRight(limit) + giantSeaWeed * 6);
+
+            //total spell cast
+            Console.WriteLine("\n\nTotal casts: ".PadRight(limit) + total_casts);
+
+            //total runes required
+            Console.WriteLine("Total Runes: ".PadRight(limit) + total_casts * 2);
+
+            //total molten glass
+            Console.WriteLine("Total molten glass: ".PadRight(limit) + string.Format("{0:n0}", molten_count));
+
+            //total exp gain
+            Console.WriteLine("\n\nTotal Exp gain: ".PadRight(limit) + string.Format("{0:n0}", total_exp_sw) + "\n\n");
+
+            //total mage exp from casting
+            Console.WriteLine("Mage exp gained: ".PadRight(limit) + string.Format("{0:n0}", total_casts * 78));
+
+            //total craft exp from casting
+            Console.WriteLine("Crafting exp from casting: ".PadRight(limit) + string.Format("{0:n0}", total_casts * exp_per_cast));
+
+            //total craft from crafting
+            Console.WriteLine("Craftin exp from glass blow: ".PadLeft(limit) + string.Format("{0:n0}", molten_count * craftingExp));
+
+            //total time take to 
+            double completion_time = (molten_count / glassPH[input - 1]) + (molten_count / 1700);
+            Console.WriteLine("Hours to complete: ".PadRight(limit) + string.Format("{0:n1}", completion_time));
 
             //Calculate the number of super glass make casts and craft exp
             //Calculate the amount of molten glass made and exp from option of crafting.
@@ -273,11 +280,12 @@ namespace Osrs
                             Console.WriteLine("Seaweed spores:".PadRight(limit) + "|" + string.Format("{0:n0}", Math.Ceiling(results / 30)));
 
                             double moltenGlass = results * glassPerSeaweed[userInput - 1];
+                            double completion_time = (moltenGlass / glassPH[userInput - 1]) + (moltenGlass / 1700);
 
                             Console.WriteLine("\n\nNumber of glass produced: " + string.Format("{0:n0}", moltenGlass));
-                            Console.WriteLine("Hours to complete: " + string.Format("{0:n1}", moltenGlass / glassPH[userInput - 1]));
-
+                            Console.WriteLine("Hours to complete: " + string.Format("{0:n1}", completion_time));
                             break;
+
                         }
                         catch
                         {
@@ -391,10 +399,4 @@ namespace Osrs
             }
         }
     }
-    
-    /// Future implementations
-    /// - include api calls to get user levels from hiscores website ✓
-    /// - select option:
-    ///     > Calculate resources needed to reach a certain level 
-    ///     > Calculate banked exp from number of resources (giant seaweed/sand)
 }

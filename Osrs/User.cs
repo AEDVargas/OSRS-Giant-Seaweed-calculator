@@ -8,6 +8,7 @@ namespace Osrs
 {
     public class User
     {
+        //User class to set user information upon requesting data from the api request
         private int level;
         private int experience;
 
