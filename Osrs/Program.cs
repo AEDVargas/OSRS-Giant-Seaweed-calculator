@@ -16,6 +16,7 @@ namespace Osrs
         private static double[] glassPerSeaweed = new double[3] { 8.7, 8.9, 9.6 };
         private static double[] glassPerSand = new double[3] { 1.45, 1.49, 1.6 };
         private static int[] glassPH = new int[3] { 10000, 15000, 13500 };
+        private static int[] temp = new int[2] { 40, 60 };
 
         static void Main(string[] args)
         {
@@ -56,14 +57,7 @@ namespace Osrs
             //    }
             //} while (!isValidInput);
 
-
             Console.ReadKey();
-        }
-
-        public static void Selection()
-        {
-
-
         }
 
         public static void CalculateFromResources()
@@ -71,9 +65,80 @@ namespace Osrs
             int giantSeaWeed = 0;
             int sand = 0;
 
-            Console.WriteLine("1 - Giant Seaweed");
-            Console.WriteLine("2 - Bucket of sand");
+            //Select method of super glass make
+            int input = Selection();
+            int exp_per_cast = 0;
 
+            //Select what is being crafted from the molten glass - options varies depending on levels
+            Console.Clear();
+            Console.WriteLine("Method of crafting:\n");
+            Console.WriteLine("1 - Unpowered orbs \n2 - Lantern Lens \n3 - Light orbs");
+
+            double craftingExp = 0;
+
+            switch (int.Parse(Console.ReadLine()))
+            {
+                case 1:
+                    craftingExp = expMethod[0];
+                    exp_per_cast = temp[0];
+                    break;
+                case 2:
+                    craftingExp = expMethod[1];
+                    exp_per_cast = temp[1];
+                    break;
+                case 3:
+                    craftingExp = expMethod[2];
+                    exp_per_cast = temp[1];
+                    break;
+                default:
+                    Console.WriteLine("Please enter valid selection");
+                    break;
+            }
+
+            Console.Write("User: ");
+
+            //Dictates the calculation depending what form of training the user enters
+            Console.Clear();
+            Console.WriteLine("Calculate from: \n");
+            Console.WriteLine("1 - Giant Seaweed");
+            Console.WriteLine("2 - Bucket of sand\n");
+            Console.Write("Enter: ");
+
+            if(int.Parse(Console.ReadLine()) == 1)
+            {
+                Console.WriteLine("How many giant seaweeds?");
+                Console.Write("Enter: ");
+                giantSeaWeed = int.Parse(Console.ReadLine());
+            }
+            else
+            {
+
+            }
+
+            //Start calculations
+            Console.Clear();
+
+            double results = 0;
+            int seaWeedCount = 0;
+
+            //We have the number of seaweeds already
+            //From this we need to calculate how much exp we get from each seaweed
+            //Now this takes into account the method of glass making AND method of crafting
+            //
+
+            double molten_count = giantSeaWeed * glassPerSeaweed[input - 1];
+            double exp_per_sw = glassPerSeaweed[input - 1] * craftingExp + exp_per_cast;
+
+            double total_exp_sw = exp_per_sw * giantSeaWeed;
+
+
+            Console.WriteLine(string.Format("{0:n0}", molten_count));
+            Console.WriteLine(string.Format("{0:n0}", total_exp_sw));
+
+            int total_casts = (giantSeaWeed / input - 1);
+
+            Console.WriteLine("Number of casts: " + total_casts );
+            Console.WriteLine("Number of Astral Runes: " + total_casts * 2);
 
             //Calculate the number of super glass make casts and craft exp
             //Calculate the amount of molten glass made and exp from option of crafting.
@@ -136,15 +201,15 @@ namespace Osrs
 
                             if (currLevel >= 46 && currLevel < 49)
                             {
-                                Console.WriteLine("0 - Unpowered orbs");
+                                Console.WriteLine("1 - Unpowered orbs");
                             }
                             else if (currLevel >= 46 && currLevel < 87)
                             {
-                                Console.WriteLine("0 - Unpowered orbs \n1 - Lantern Lens");
+                                Console.WriteLine("1 - Unpowered orbs \n2 - Lantern Lens");
                             }
                             else if (currLevel >= 46)
                             {
-                                Console.WriteLine("0 - Unpowered orbs \n1 - Lantern Lens \n2 - Light orbs");
+                                Console.WriteLine("1 - Unpowered orbs \n2 - Lantern Lens \n3 - Light orbs");
                             }
                             else
                             {
@@ -155,45 +220,15 @@ namespace Osrs
                             Console.Write("User: ");
                             crafting = int.Parse(Console.ReadLine());
 
-
                             //Select method of making molten glass
-                            int userInput;
-                            bool isValidInput = false;
-
-                            do
-                            {
-                                Console.WriteLine("Method of Super Glass make:\n");
-                                Console.WriteLine("1 - 2 Giant seaweed and 12 bucket of sand");
-                                Console.WriteLine("2 - 3 Giant seaweed and 18 bucket of sand(w / e excess)");
-                                Console.WriteLine("3 - 3 Giant seaweed and 18 bucket of sand(w excess)");
-                                Console.Write("User: ");
-                                string input = Console.ReadLine();
-
-                                if (int.TryParse(input, out userInput))
-                                {
-                                    if (userInput >= 1 && userInput <= 3)
-                                    {
-                                        isValidInput = true;
-                                    }
-                                    else
-                                    {
-                                        Console.Clear();
-                                        Console.WriteLine("Please enter a valid input ranging from 1 - 3");
-                                    }
-                                }
-                                else
-                                {
-                                    Console.Clear();
-                                    Console.WriteLine("Please enter an integer value ranging from 1 - 3");
-                                }
-                            } while (!isValidInput);
+                            int userInput = Selection();
 
                             //Users exp
-                            RSExp UsrExp = new RSExp();
+                            Experience UsrExp = new Experience();
                             double usrLvlToExp = UsrExp.LevelToXP(currLevel);
 
                             //Goal exp
-                            RSExp goalExp = new RSExp();
+                            Experience goalExp = new Experience();
                             double goalLvlToExp = goalExp.LevelToXP(goalLevel);
 
                             //calculate exp difference
@@ -205,17 +240,17 @@ namespace Osrs
 
                             if (userInput == 1)
                             {
-                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[0] * 6) * expMethod[crafting] + 40)));
+                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[0] * 6) * expMethod[crafting- 1] + 40)));
                                 seaWeedCount = 2;
                             }
                             else if (userInput == 2)
                             {
-                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[1] * 6) * expMethod[crafting] + 60)));
+                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[1] * 6) * expMethod[crafting- 1] + 60)));
                                 seaWeedCount = 3;
                             }
                             else if (userInput == 3)
                             {
-                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[2] * 6) * expMethod[crafting] + 60)));
+                                results = Math.Ceiling(expDifference / (Convert.ToInt32((glassPerSand[2] * 6) * expMethod[crafting- 1] + 60)));
                                 seaWeedCount = 3;
                             }
 
@@ -257,6 +292,43 @@ namespace Osrs
                 }
                 break;
             }
+        }
+
+        public static int Selection()
+        {
+            int userInput;
+            bool isValidInput = false;
+
+            do
+            {
+                Console.Clear();
+                Console.WriteLine("Method of Super Glass make:\n");
+                Console.WriteLine("1 - 2 Giant seaweed and 12 bucket of sand");
+                Console.WriteLine("2 - 3 Giant seaweed and 18 bucket of sand(w / e excess)");
+                Console.WriteLine("3 - 3 Giant seaweed and 18 bucket of sand(w excess)");
+                Console.Write("User: ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out userInput))
+                {
+                    if (userInput >= 1 && userInput <= 3)
+                    {
+                        isValidInput = true;
+                    }
+                    else
+                    {
+                        Console.Clear();
+                        Console.WriteLine("Please enter a valid input ranging from 1 - 3");
+                    }
+                }
+                else
+                {
+                    Console.Clear();
+                    Console.WriteLine("Please enter an integer value ranging from 1 - 3");
+                }
+            } while (!isValidInput);
+
+            return userInput;
         }
 
         static async Task GetUserData(string username, User setLevel)
@@ -319,60 +391,10 @@ namespace Osrs
             }
         }
     }
-
-    public class User
-    {
-        private int level;
-        private int experience;
-
-        public int Level
-        {
-            get { return level; }
-            set { level = value;  }
-        }
-
-        public int Experience
-        {
-            get { return experience; }
-            set { experience = value; }
-        }
-    }
-
-    public class RSExp
-    {
-
-        public int Equate(double xp)
-        {
-            return (int)Math.Floor(
-                xp + 300 * Math.Pow(2, xp / 7));
-        }
-
-        public double LevelToXP(int level)
-        {
-            double xp = 0;
-
-            for (int i = 1; i < level; i++)
-                xp += this.Equate(i);
-
-            return Math.Floor(xp / 4);
-        }
-
-        public int XPToLevel(int xp)
-        {
-            int level = 1;
-
-            while (this.LevelToXP(level) < xp)
-                level++;
-
-            return level;
-        }
-
-        /// Future implementations
-        /// - include api calls to get user levels from hiscores website ✓
-        /// - select option:
-        ///     > Calculate resources needed to reach a certain level 
-        ///     > Calculate banked exp from number of resources (giant seaweed/sand)
-
-
-    }
+    
+    /// Future implementations
+    /// - include api calls to get user levels from hiscores website ✓
+    /// - select option:
+    ///     > Calculate resources needed to reach a certain level 
+    ///     > Calculate banked exp from number of resources (giant seaweed/sand)
 }
